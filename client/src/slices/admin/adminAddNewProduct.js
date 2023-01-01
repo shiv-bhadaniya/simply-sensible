@@ -28,7 +28,7 @@ export const addNewProductSlice = createSlice({
 })
 
 
-export const adminAddNewProduct = (data) => {
+export const adminAddNewProduct = (data, navigate) => {
 
     return async (dispatch) => {
         dispatch(addNewProduct());
@@ -37,6 +37,7 @@ export const adminAddNewProduct = (data) => {
             const response = await API.addNewProduct(data);
             console.log("res from server after add new product : ", response.data);
             dispatch(addNewProductSuccess(response.data));
+            navigate("/shop")
         } catch (error) {
             dispatch(addNewProductFailure());
         }

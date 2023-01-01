@@ -1,12 +1,15 @@
 import React, { useState } from 'react'
+import base64 from "base-64";
 import { useDispatch, useSelector } from "react-redux";
 import { addNewProductDataSelector, adminAddNewProduct } from '../../slices/admin/adminAddNewProduct';
-
+import FileBase from "react-file-base64";
+import { useNavigate } from 'react-router-dom';
 
 
 const AdminAddProduct = () => {
 
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const [newProductData, setNewProductData] = useState({ sku: "", name: "", discription: "", weight: "", price: "", categorie: "", photo: "" });
 
@@ -15,7 +18,9 @@ const AdminAddProduct = () => {
 
     const handleAdminAddNewProduct = (e) => {
         e.preventDefault();
-        dispatch(adminAddNewProduct(newProductData));
+        console.log("Button Cliked");
+        console.log(newProductData );
+        dispatch(adminAddNewProduct(newProductData, navigate));
     }
 
     return (
@@ -24,41 +29,41 @@ const AdminAddProduct = () => {
                 <div class="w-full">
                     <h2 class="text-center text-blue-400 font-bold text-2xl uppercase mb-10">Add New Product</h2>
                     <div class="bg-white p-10 rounded-lg shadow md:w-3/4 mx-auto lg:w-1/2">
-                        <form onSubmit={handleAdminAddNewProduct}>
+                        <form onSubmit={handleAdminAddNewProduct} encType="multipart/form-data">
 
                             <div class="mb-5">
                                 <label for="product_sku" class="block mb-2 font-bold text-gray-600" >Product SKU</label>
-                                <input type="text" id="product_sku" name="product_sku" placeholder="Product SKU." class="border border-gray-300 shadow p-3 w-full rounded mb-" required value={newProductData.sku} onChange={(e) => setNewProductData({ ...newProductData, sku: e.target.value })} />
+                                <input type="text" id="product_sku" name="sku" placeholder="Product SKU." class="border border-gray-300 shadow p-3 w-full rounded mb-" required value={newProductData.sku} onChange={(e) => setNewProductData({ ...newProductData, sku: e.target.value })} />
                             </div>
 
                             <div class="mb-5">
                                 <label for="product_name" class="block mb-2 font-bold text-gray-600" >Product Name</label>
-                                <input type="text" id="product_name" name="product_name" placeholder="Product Name." class="border border-gray-300 shadow p-3 w-full rounded mb-" required value={newProductData.name} onChange={(e) => setNewProductData({ ...newProductData, name: e.target.value })} />
+                                <input type="text" id="product_name" name="name" placeholder="Product Name." class="border border-gray-300 shadow p-3 w-full rounded mb-" required value={newProductData.name} onChange={(e) => setNewProductData({ ...newProductData, name: e.target.value })} />
                             </div>
 
                             <div class="mb-5">
                                 <label for="product_description" class="block mb-2 font-bold text-gray-600">Product Description</label>
-                                <input type="text" id="product_description" name="product_description" placeholder="Product Description." class="border border-gray-300 shadow p-3 w-full rounded mb-" required value={newProductData.discription} onChange={(e) => setNewProductData({ ...newProductData, discription: e.target.value })} />
+                                <input type="text" id="product_description" name="description" placeholder="Product Description." class="border border-gray-300 shadow p-3 w-full rounded mb-" required value={newProductData.discription} onChange={(e) => setNewProductData({ ...newProductData, discription: e.target.value })} />
                             </div>
 
                             <div class="mb-5">
                                 <label for="product_weight" class="block mb-2 font-bold text-gray-600">Product Weight</label>
-                                <input type="text" id="product_weight" name="product_weight" placeholder="Product Weight." class="border border-gray-300 shadow p-3 w-full rounded mb-" required value={newProductData.weight} onChange={(e) => setNewProductData({ ...newProductData, weight: e.target.value })} />
+                                <input type="text" id="product_weight" name="weight" placeholder="Product Weight." class="border border-gray-300 shadow p-3 w-full rounded mb-" required value={newProductData.weight} onChange={(e) => setNewProductData({ ...newProductData, weight: e.target.value })} />
                             </div>
 
                             <div class="mb-5">
                                 <label for="product_price" class="block mb-2 font-bold text-gray-600">Product Price</label>
-                                <input type="text" id="product_price" name="product_price" placeholder="Product Price." class="border border-gray-300 shadow p-3 w-full rounded mb-" required value={newProductData.price} onChange={(e) => setNewProductData({ ...newProductData, price: e.target.value })} />
+                                <input type="text" id="product_price" name="price" placeholder="Product Price." class="border border-gray-300 shadow p-3 w-full rounded mb-" required value={newProductData.price} onChange={(e) => setNewProductData({ ...newProductData, price: e.target.value })} />
                             </div>
 
                             <div class="mb-5">
                                 <label for="product_categorie" class="block mb-2 font-bold text-gray-600">Product Categorie</label>
-                                <input type="text" id="product_categorie" name="product_categorie" placeholder="Product Categorie." class="border border-gray-300 shadow p-3 w-full rounded mb-" required value={newProductData.categorie} onChange={(e) => setNewProductData({ ...newProductData, categorie: e.target.value })} />
+                                <input type="text" id="product_categorie" name="categorie" placeholder="Product Categorie." class="border border-gray-300 shadow p-3 w-full rounded mb-" required value={newProductData.categorie} onChange={(e) => setNewProductData({ ...newProductData, categorie: e.target.value })} />
                             </div>
 
                             <div class="mb-5">
                                 <label class="block mb-2 text-sm font-bold text-gray-600 dark:text-white" for="poduct_photo">Upload Product Photo</label>
-                                <input class="block w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 cursor-pointer dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="product_photo" id="product_photo" type="file" />
+                                <FileBase name='photo' class="block w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 cursor-pointer dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="product_photo" id="product_photo" type="file" onDone={({ base64 }) => setNewProductData({ ...newProductData, photo: base64 })}  />
                             </div>
 
                             {loading ? <><button disabled type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 inline-flex items-center">
