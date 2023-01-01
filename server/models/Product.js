@@ -10,7 +10,10 @@ const productShema = new mongoose.Schema({
     price : Number,
     categorie: String,
     photo: String,
-
+    productAddedAt: {
+        type: Date,
+        default: new Date(),
+    }
 })
 
 const Product = mongoose.model("Product", productShema);

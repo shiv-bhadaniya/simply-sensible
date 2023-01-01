@@ -1,16 +1,13 @@
 import express from "express";
 import mongoose from "mongoose";
 import Product from "../models/Product.js";
-
-
 const router = express.Router();
-
 
 export const AdmindAddNewProduct = async (req, res) => {
 
     const productData = req.body;
-
-    const newProduct= new Product( {
+    console.log("req.body ", req.body);
+    const newProduct = new Product( {
         ...productData
     })
 
