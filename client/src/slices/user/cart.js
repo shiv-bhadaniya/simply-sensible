@@ -50,6 +50,7 @@ export const getCartDetailsSlice = createSlice({
       state.cartHasError = false
     },
     saveShippingInformation : (state, {payload}) => {
+      console.log("Shipping info data from slice : ", payload);
       state.cartLoading = false
       state.cartHasError = false
       state.shipingInfo = payload
@@ -123,15 +124,16 @@ export const removeProduct = (productId) => {
     }
 }
 
-export const saveShippingInfo = (data) => {
+export const saveShippingInfo = (data, navigate) => {
 
   return async (dispatch) => {
 
     dispatch(cart());
 
     try {
-      dispatch(saveShippingInformation());
+      dispatch(saveShippingInformation(data));
       localStorage.setItem("shippingInfo", JSON.stringify(data));
+      navigate("/shop/checkout/payment");
     } catch (error) {
       dispatch(cartFailure());
     }

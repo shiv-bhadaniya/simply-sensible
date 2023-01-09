@@ -1,6 +1,9 @@
 import express from "express";
-import mongoose from "mongoose";
 import Product from "../models/Product.js";
+import User from "../models/User.js";
+import Order from "../models/Order.js";
+
+
 const router = express.Router();
 
 export const AdmindAddNewProduct = async (req, res) => {
@@ -18,7 +21,37 @@ export const AdmindAddNewProduct = async (req, res) => {
         res.status(201).json(newProduct);
         
     } catch (error) {
-        console.log("Error toa add new product");
+        console.log("Error to add new product");
+    }
+}
+
+// get all users 
+export const fetchAllUsers = async (req, res) => {
+
+    try {
+        
+        const alluser = await User.find();
+
+        res.status(200).json(alluser);
+        
+    } catch (error) {
+        res.status(500).json("Something went wrong.")
+    }
+
+}
+
+
+// get all orders 
+
+export const fetchAllOrders = async (req, res) => {
+
+    try {
+
+        const allOrders = await Order.find();
+        res.status(200).json(allOrders);
+        
+    } catch (error) {
+        res.status(500).json("Something went wrong.");
     }
 }
 

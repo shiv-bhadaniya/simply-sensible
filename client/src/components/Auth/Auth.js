@@ -13,7 +13,7 @@ export const Auth = () => {
     var [isSub, setSub] = useState(0);
     var [isShowPass, setShowPass] = useState(0);
 
-    const { loading, hasError, data } = useSelector(authUserSelector);
+    const { loading } = useSelector(authUserSelector);
 
     const navigate = useNavigate();
 

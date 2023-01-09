@@ -6,5 +6,5 @@ const baseAPI = axios.create({
 });
 
 
-export const authUserSignin = (authData) => baseAPI.post("/user/signin", authData);
-export const authUserSignup = (authData) => baseAPI.post("/user/signup", authData);
+export const authUserSignin = (authData) => baseAPI.post("/user/auth/signin", authData);
+export const authUserSignup = (authData) => baseAPI.post("/user/auth/signup", authData);

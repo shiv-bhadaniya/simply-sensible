@@ -1,5 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit"
 import { getCartPrice } from "../../API/userAPI";
+import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-toastify';
+
 
 const initialState = {
     loadingCartPriceFromSever: false,
@@ -20,6 +23,16 @@ export const cartPriceCalulaterFromServerSlice = createSlice({
             state.cartPriceWithFinalAmountFromServer = payload
         },
         cartPriceCalulateFromServerFailure : (state) => {
+            toast.error('Something went wrong', {
+                position: "bottom-center",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+              });
             state.loadingCartPriceFromSever = false
             state.errorCalculateingPriceFromServer = true
             state.cartPriceWithFinalAmountFromServer = 0
@@ -27,7 +40,7 @@ export const cartPriceCalulaterFromServerSlice = createSlice({
     }
 })
 
-export const calculateCartFinalPriceFromServer = (cartDetails) => {
+export const calculateCartFinalPriceFromServer = (cartDetails, navigate) => {
 
     return async (dispatch) => {
 
@@ -35,9 +48,14 @@ export const calculateCartFinalPriceFromServer = (cartDetails) => {
 
         try {
             const finalPrice = await getCartPrice(cartDetails);
+            if(finalPrice == 0) {
+                throw Error
+            }
             dispatch(cartPriceCalulateFromServerSucccess(finalPrice.data));            
+            navigate("/shop/checkout")
         } catch (error) {
             dispatch(cartPriceCalulateFromServerFailure());
+            navigate("/shop");
         }
     }
 }

@@ -27,7 +27,7 @@ const Navbar = () => {
                     <div class="flex items-center">
                         {(data?.length != 0) ? <>
                             <div class="inline-flex overflow-hidden relative justify-center items-center w-10 h-10 bg-gray-100 rounded-full dark:bg-gray-600">
-                                <Link to="/profile" > <span class="font-medium text-gray-600 dark:text-gray-300">  {data?.result?.name[0]} </span> </Link>
+                                <Link to="/user/profile" > <span class="font-medium text-gray-600 dark:text-gray-300">  {data?.result?.name[0]} </span> </Link>
                             </div>
                             <div className='ml-[1rem] mr-0 mt-[18px] mb-[15px]' ><button type="button" class="py-2.5 px-5 mr-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-full border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 " onClick={handleLogout} >Logout</button></div>
                         </> : <> <Link to="/auth" class="text-sm font-medium text-blue-600 dark:text-blue-500 hover:underline">Login</Link> </>}
@@ -49,6 +49,9 @@ const Navbar = () => {
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
                                 </svg> </Link>
                                 </div>
+                            </li>
+                            <li>
+                                <Link to="/admin/dashboard">Dashboard</Link>
                             </li>
                         </ul>
                     </div>

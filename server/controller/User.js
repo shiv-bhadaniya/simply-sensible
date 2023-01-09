@@ -1,7 +1,7 @@
 import express from "express";
 import mongoose from "mongoose";
 import Product from "../models/Product.js";
-
+import Order from "../models/Order.js";
 const router = express.Router();
 
 
@@ -19,8 +19,7 @@ export const getAllProducts = async (req, res) => {
 export const cartPriceCalulate = async (req, res) => {
 
     const cartItems = req.body;
-    console.log("Cookie  : ", req.cookies);
-    // console.log("Cart item from server : ", cartItems);
+
     try {
 
         var cartItemsIds = [];
@@ -31,6 +30,8 @@ export const cartPriceCalulate = async (req, res) => {
             cartItemsIds.push(itemId);
         }
 
+        console.log("cartitem ids : ", cartItemsIds);
+
 
         let dbProduct = await Product.find({
             '_id': {
@@ -38,17 +39,18 @@ export const cartPriceCalulate = async (req, res) => {
             }
         });
 
+
+        if(dbProduct.length !== cartItems.length) {
+            throw new Error("Product not find.");
+        }
+
         var subTotal = 0;
 
-        // console.log("finded all cart product from db. ", dbProduct);
 
         for(let i = 0; i < cartItems.length; i++) {
             for(let j = 0; j < dbProduct.length; j++) {
-                console.log(dbProduct[j]._id);
                 if((cartItems[i]._id) == (dbProduct[j]._id)) {
-                    console.log("Find match product.");
                     let onItemPrice = (dbProduct[j].price * cartItems[i].quantity);
-                    console.log("One times total : ", onItemPrice);
                     subTotal = subTotal + onItemPrice;
                 }
             }
@@ -64,5 +66,52 @@ export const cartPriceCalulate = async (req, res) => {
         res.json("Error");
     }
 }
+
+export const newOrder = async (req, res) => {
+
+    console.log("new order req : ", req.body);
+
+    const {
+        shipingInfo,
+        orderItems,
+        totalAmount,
+        paymetInfo,
+    } = req.body;
+
+    try {
+        
+        const order = await Order.create({
+            shipingInfo,
+            orderItems,
+            paymetInfo,
+            totalAmount,
+            paidAt: Date.now(),
+            user: req.user._id,
+        })
+
+        res.status(200).json({ order })
+        
+    } catch (error) {
+        res.json({"message" :"Something went wrong."});
+    }
+}
+
+export const fetchAllUserOrders = async (req, res) => {
+
+    try {
+        
+        let userId = req.user._id;
+
+        const userOrders = await Order.find({user: userId});
+        if(userOrders.length !== 0) {
+            res.status(200).json(userOrders);
+        } else {
+            res.status(200).json("Not order yet.")
+        }
+    } catch (error) {
+        res.status(500).json("Something went wrog.")
+    }
+}
+
 
 export default router;

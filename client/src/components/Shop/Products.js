@@ -1,17 +1,15 @@
 import { useEffect } from "react"
 import { fetchAllProducts, allProductSelector } from "../../slices/user/allProducts"
 import { useDispatch, useSelector } from "react-redux";
-import loadingAnimation from "../../assets/loading.gif";
 import { Link, useNavigate } from "react-router-dom";
-import {AiOutlineLoading3Quarters } from "react-icons/ai"
-
+import { PacmanLoader } from "react-spinners";
 
 const Products = () => {
 
   const dispatch = useDispatch()
   const navigate = useNavigate();
-  
-  var {data, loading, hasError} = useSelector(allProductSelector);
+
+  var { data, loading, hasError } = useSelector(allProductSelector);
 
   useEffect(() => {
     dispatch(fetchAllProducts());
@@ -21,10 +19,9 @@ const Products = () => {
 
   const renderProducts = () => {
 
-    // <img src={loadingAnimation} alt="Loading..." />
-    if(loading) return <div > <AiOutlineLoading3Quarters /> </div>
-    if(hasError) return <h1>oops!! some thing went wrong. please try afteer some times.</h1>
-    if(!loading && data.length == 0) return <h1>No product avabile.</h1>
+    if (loading) return  <div class="grid place-items-center h-screen"> <PacmanLoader color="#36d7b7" /> </div>
+    if (hasError) return <h1>oops!! some thing went wrong. please try afteer some times.</h1>
+    if (!loading && data.length == 0) return <h1>No product avabile.</h1>
 
 
     return (
@@ -44,7 +41,7 @@ const Products = () => {
                     />
                   </div>
                   <Link key={product._id} to={`/shop/product-details/${product._id}`}>
-                    <h3 className="mt-4 text-sm text-gray-700">{product.name} | {product.weight < 1000 ? ((product.weight)) : ((product.weight)/1000)} {(product.weight < 1000 ? "Grams" : "Kg")}</h3>
+                    <h3 className="mt-4 text-sm text-gray-700">{product.name} | {product.weight}</h3>
                     <p className="mt-1 text-lg font-medium text-gray-900">{product.price} Rs.</p>
                   </Link>
                 </div>

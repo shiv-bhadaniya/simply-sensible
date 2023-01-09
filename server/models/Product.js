@@ -6,7 +6,7 @@ const productShema = new mongoose.Schema({
     sku: String,
     name: String,
     discription: String,
-    weight: Number,
+    weight: String,
     price : Number,
     categorie: String,
     photo: String,

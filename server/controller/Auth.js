@@ -7,7 +7,6 @@ const router = express.Router();
 
 
 export const signin = async (req, res) => {
-    console.log("signin response from server.", req.body);
 
 
     const { email, password } = req.body;
@@ -39,11 +38,8 @@ export const signin = async (req, res) => {
             httpOnly: false,
         };
 
-        const both = {
-            sendingUserDetails, token
-        }
         
-        res.status(200).cookie("profile", both, options).json({
+        res.status(200).cookie("token", token, options).json({
             result : sendingUserDetails, token
         });
         
@@ -61,7 +57,6 @@ export const signin = async (req, res) => {
 export const signup = async (req, res) => {
     
     const { email, password, confirmPassword, name } = req.body;
-    console.log(email, password, confirmPassword, name);
     try {
         
         const userExist = await User.findOne({email});
@@ -89,18 +84,15 @@ export const signup = async (req, res) => {
             name : name,
         }
 
-        const CokieOption = {
+
+        const options = {
             httpOnly: false,
-        }
+        };
 
-        const dataForCookie = {
-            result : sendingUserDetails,
-            token
-        }
-
-        res.status(200).cookie("resultForCookie", token, CokieOption).json({
+        
+        res.status(200).cookie("token", token, options).json({
             result : sendingUserDetails, token
-        })
+        });
         
         console.log("Successfully signup. ");
 

@@ -4,20 +4,6 @@ import { XMarkIcon } from '@heroicons/react/24/outline'
 import { ChevronDownIcon, FunnelIcon, MinusIcon, PlusIcon, Squares2X2Icon } from '@heroicons/react/20/solid'
 import Products from './Products'
 
-const sortOptions = [
-  { name: 'Most Popular', href: '#', current: true },
-  { name: 'Newest', href: '#', current: false },
-  { name: 'Price: Low to High', href: '#', current: false },
-  { name: 'Price: High to Low', href: '#', current: false },
-]
-const subCategories = [
-  { name: 'Roasted peanuts', href: '#' },
-  { name: 'Roasted Cashewnuts', href: '#' },
-  { name: 'Roasted Foxnuts', href: '#' },
-  { name: 'Roasted Chana', href: '#' },
-  { name: 'Roasted Almonds', href: '#' },
-  { name: 'Roasted Popcorns', href: '#' },
-]
 const filters = [
   {
     id: 'weight',
@@ -156,7 +142,7 @@ export default function Shop() {
           <div className="flex items-baseline justify-between border-b border-gray-200 pt-24 pb-6">
             <h1 className="text-4xl font-bold tracking-tight text-gray-900">New Arrivals</h1>
 
-            <div className="flex items-center">
+            {/* <div className="flex items-center">
               <Menu as="div" className="relative inline-block text-left">
                 <div>
                   <Menu.Button className="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
@@ -212,7 +198,7 @@ export default function Shop() {
                 <span className="sr-only">Filters</span>
                 <FunnelIcon className="h-5 w-5" aria-hidden="true" />
               </button>
-            </div>
+            </div> */}
           </div>
 
           <section aria-labelledby="products-heading" className="pt-6 pb-24">
@@ -223,14 +209,9 @@ export default function Shop() {
             <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-4">
               {/* Filters */}
               <form className="hidden lg:block">
-                <h3 className="sr-only">Categories</h3>
+                {/* <h3 className="sr-only">Categories</h3>
                 <ul role="list" className="space-y-4 border-b border-gray-200 pb-6 text-sm font-medium text-gray-900">
-                  {/* {subCategories.map((category) => (
-                    <li key={category.name}>
-                      <a href={category.href}>{category.name}</a>
-                    </li>
-                  ))} */}
-                </ul>
+                </ul> */}
 
                 {filters.map((section) => (
                   <Disclosure as="div" key={section.id} className="border-b border-gray-200 py-6">
@@ -257,7 +238,7 @@ export default function Shop() {
                                   name={`${section.id}[]`}
                                   defaultValue={option.value}
                                   type="checkbox"
-                                  defaultChecked={option.checked}
+                                  // defaultChecked={option.checked}
                                   className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
                                 />
                                 <label
@@ -276,12 +257,8 @@ export default function Shop() {
                 ))}
               </form>
 
-              {/* Product grid */}
               <div className="lg:col-span-3">
-                {/* Replace with your content */}
                 <Products />
-                {/* <div className="h-96 rounded-lg border-4 border-dashed border-gray-200 lg:h-full" /> */}
-                {/* /End replace */}
               </div>
             </div>
           </section>

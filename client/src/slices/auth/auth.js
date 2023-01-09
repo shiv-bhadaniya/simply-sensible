@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit"
 import * as API from "../../API/Auth.js";
-
+import Cookies from 'js-cookie'
 
 const initialState = {
     loading : false,
@@ -31,7 +31,10 @@ export const AuthSlice = createSlice({
         },
         logout : (state) => {
             state.data = [];
-            localStorage.removeItem("profile");
+            state.loading = false
+            state.hasError = false
+            localStorage.removeItem("profile")
+            Cookies.remove("token")
         }
     }
 })

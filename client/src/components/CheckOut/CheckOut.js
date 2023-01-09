@@ -5,12 +5,13 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
 import { useDispatch, useSelector } from "react-redux";
 import { saveShippingInfo } from "../../slices/user/cart";
+import { useNavigate } from "react-router-dom";
 
 
 const CheckOut = () => {
 
   const dispatch = useDispatch();
-  
+  const navigate = useNavigate();
 
   const [grossTotal, setGrossTotal] = useState(0);
   var [totalProductAmount, setTotalProductAmount] = useState(0);
@@ -56,7 +57,7 @@ const handleFormSubmit = (e) => {
     return;
   }
 
-  dispatch(saveShippingInfo({name,address,landMark ,phoneNo ,country, state, city, pinCode}));
+  dispatch(saveShippingInfo({name,address,landMark ,phoneNo ,country, state, city, pinCode}, navigate));
 
   toast.success('Form submitted Successfully!', {
     position: "bottom-center",
@@ -93,7 +94,7 @@ return (
               <input  value={landMark} onChange={(e) => setLandMark(e.target.value)} className="px-2 focus:outline-none focus:ring-2 focus:ring-gray-500 border-b border-gray-200 leading-4 text-base placeholder-gray-600 py-4 w-full" type="text" placeholder="Landmark" />
               <div className="flex justify-between flex-col sm:flex-row w-full items-start space-y-8 sm:space-y-0 sm:space-x-8">
 
-                {/* City drop down */}
+                {/* country drop down */}
                 {/* start */}
                 <div>
 
@@ -123,7 +124,6 @@ return (
                         required
                         value={state}
                         onChange={(e) => {
-                          console.log(e.target.value)
                           setState(e.target.value)
                         }}
                       >

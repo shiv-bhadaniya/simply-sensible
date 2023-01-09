@@ -70,12 +70,9 @@ const Cart = () => {
     }
 
     const checkoutHandler = () => {
-        navigate("/shop/checkout")
-
         // send all order details to backed like product id and queantity so we can calculate in backed and make safe payment despatch here 
         console.log(cartItems);
-        dispatch(calculateCartFinalPriceFromServer(cartItems));
-        
+        dispatch(calculateCartFinalPriceFromServer(cartItems, navigate));        
     }
 
     return (

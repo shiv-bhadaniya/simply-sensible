@@ -24,12 +24,13 @@ app.use(cors(corsOption));
 
 
 
-app.use(bodyParser.urlencoded({ extended: true }))
-app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }))
+app.use(bodyParser.json({limit: "50mb"}));
 
 app.use("/", userRouter);
-app.use("/user", authRoute);
+app.use("/user/auth", authRoute);
 app.use("/admin", adminRouter);
+
 
 
 const PORT = process.env.PORT;
