@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit"
 import * as API from "../../API/Auth.js";
 import Cookies from 'js-cookie'
+import { toast } from 'react-toastify';
 
 const initialState = {
     loading : false,
@@ -27,7 +28,9 @@ export const AuthSlice = createSlice({
             console.log(" Authentication failure. ", msg);
             state.loading = false
             state.hasError = true
-            alert("Something went wrong.");
+            toast.error("Something went wrong.", {
+                position: "bottom-center"
+            });
         },
         logout : (state) => {
             state.data = [];

@@ -14,7 +14,8 @@
   
   .dashboardContainer > h1 {
     color: rgba(0, 0, 0, 0.733);
-    font: 300 2rem "Roboto";
+    font: 800 2rem "Courier New', Courier, monospace";
+    font-family: 'Courier New', Courier, monospace;
     text-align: center;
     width: 50%;
     padding: 1.5rem;

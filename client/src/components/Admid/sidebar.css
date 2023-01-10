@@ -5,9 +5,7 @@
     padding: 4rem 0;
   }
   
-  .sidebar > a:first-child {
-    padding: 0;
-  }
+
   .sidebar > a > img {
     width: 100%;
     transition: all 0.5s;

@@ -17,6 +17,7 @@ import ProtectedRoutes from './utils/ProtectedRoutes';
 import { authUserSelector } from './slices/auth/auth';
 import Dashboard from './components/Admid/Dashboard';
 import ProductList from './components/Admid/ProductList';
+import OrderList from './components/Admid/OrderList';
 
 
 
@@ -146,8 +147,17 @@ const App = () => {
               }
             />
 
+            <Route
+              path="admin/orders"
+              element={
+                <ProtectedRoutes isAuthenticated={isAuthenticated} isAdmin={isAdmin} adminRoute={true}>
+                  <OrderList />
+                </ProtectedRoutes>
+              }
+            />
+
           </Routes>
-          <Footer />
+          {/* <Footer /> */}
         </BrowserRouter>
       </Suspense>
       <ToastContainer />

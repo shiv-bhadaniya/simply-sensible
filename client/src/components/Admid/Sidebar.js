@@ -1,5 +1,5 @@
 import React from 'react'
-import "./slidebar.css";
+import "./sidebar.css";
 import { Link } from 'react-router-dom';
 import { MdDashboard } from "react-icons/md";
 import { MdPostAdd } from "react-icons/md";
@@ -15,14 +15,11 @@ import { MdExpandMore } from "react-icons/md";
 
 
 
-const Slidebar = () => {
+const Sidebar = () => {
 
     return (
         <>
             <div className="sidebar">
-                <Link to="/">
-                    <h1>Simply Sensible</h1>
-                </Link>
 
                 <Link to="/admin/dashboard">
                     <p>
@@ -70,4 +67,4 @@ const Slidebar = () => {
     )
 }
 
-export default Slidebar
+export default Sidebar;

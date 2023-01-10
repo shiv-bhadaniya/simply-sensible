@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import Slidebar from './Slidebar';
+import Sidebar from './Sidebar';
 import {Link} from "react-router-dom";
 import "./dashboard.css";
 import { useDispatch, useSelector } from 'react-redux'
@@ -35,10 +35,10 @@ const Dashboard = () => {
   return (
     <>
       <div className="dashboard">
-        <Slidebar />
+        <Sidebar />
 
         <div className="dashboardContainer">
-          <h1>Dashboard</h1>
+          <h1 className='hover:font-light'>Dashboard</h1>
 
           <div className="dashboardSummary">
             <div>

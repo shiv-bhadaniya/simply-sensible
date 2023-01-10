@@ -18,4 +18,9 @@ export const fetchAllUsers = () => baseAPI.get("/admin/alluser");
 export const fetchAllOrders = () => baseAPI.get("/admin/allorders");
 
 
+// delete product - admin
+export const deleteProduct = (productId) => baseAPI.delete(`/admin/product/delete/${productId}`);
+
+
+
 
