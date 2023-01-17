@@ -23,4 +23,9 @@ export const deleteProduct = (productId) => baseAPI.delete(`/admin/product/delet
 
 
 
+// edit order status
+export const editOrderStatus = (orderInfo) => baseAPI.put("/admin/order/edit/status", orderInfo);
+
+
+
 

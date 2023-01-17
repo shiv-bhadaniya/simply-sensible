@@ -9,6 +9,7 @@ import  fetchUserOrderReducer  from "./user/fetchOrder";
 import fetchAllUsers from "./admin/user";
 import fetchAllOrders from "./admin/order";
 import delteProduct from "./admin/productDelete";
+import orderStatusUpdateReducer from "./admin/orderStatusUpdate";
 
 const rootReducer = combineReducers({
     adminAddNewProduct :  addNewProductReducer,
@@ -21,6 +22,7 @@ const rootReducer = combineReducers({
     allUsers: fetchAllUsers,
     allOrders: fetchAllOrders,
     deleteProduct: delteProduct,
+    orderStatusUpdated: orderStatusUpdateReducer,
 })
 
 export default rootReducer;

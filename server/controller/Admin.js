@@ -73,6 +73,32 @@ export const deleteProduct = async (req, res) => {
         res.status(500).json("Something went wrong.");
     }
 }
+ 
+
+// update order status
+export const updateOrderStatus = async (req,res) => {
+
+    try {
+        
+        const orderInfo = req.body
+        const orderId = orderInfo.orderId
+        const orderUpdatingStatus = orderInfo.orderUpdatingStatus
+        console.log("Order before update : ", orderInfo);
+        
+        const updatedOrderInfo = await Order.findByIdAndUpdate(orderId,{orderStatus:orderUpdatingStatus}, {new: true});
+        console.log("Order After update status : ", updatedOrderInfo);
+        
+        if(updatedOrderInfo === null) {
+            res.status(200).json("We dont able to update status, Please try after some times.")
+        } else {
+            res.status(200).json("Order status update successfully.");
+        }
+
+
+    } catch (error) {
+        res.status(500).json("Somethig went wrong.");
+    }
+}
 
 
 

@@ -11,12 +11,12 @@ export const isAuthenticateUser = async (req, res, next) => {
         req.user = await User.findById(decodeData.id);
 
         if (!req.user) {
-            next(new Error('token not find'))
+            next(new Error('token not found'))
         }
         next();
 
     } else {
-        next(new Error('token not fount'))
+        next(new Error('token not found'))
     }
 
 }
@@ -29,7 +29,7 @@ export const userIsAdmin = async (req, res, next) => {
         req.user = await User.findById(decodeData.id);
 
         if (!req.user) {
-            next(new Error('user not find'))
+            next(new Error('user not found'))
         }
 
         if(req.user.isAdmin) {
