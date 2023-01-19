@@ -21,3 +21,7 @@ export const paymentProcess = (data) => baseAPI.post("/shop/checkout/payment", d
 export const newOrder = (newOrderData) => baseAPI.post("/shop/checkout/order/new", newOrderData);
 
 export const getAllUserOrder = () => baseAPI.get("/user/profile/order");
+
+
+// product new review
+export const newProductReview = (productId, reviewData) => baseAPI.put(`/shop/product/new-review/${productId}`, reviewData);

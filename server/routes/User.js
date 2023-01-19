@@ -1,6 +1,6 @@
 import express from "express";
 import { paymentProcess, sendStripAPIKey } from "../controller/Payment.js";
-import { cartPriceCalulate, fetchAllUserOrders, getAllProducts, newOrder } from "../controller/User.js";
+import { cartPriceCalulate, fetchAllUserOrders, getAllProducts, newOrder, newProductReview } from "../controller/User.js";
 import {isAuthenticateUser} from "../middlerware/Auth.js";
 
 
@@ -18,5 +18,10 @@ router.get("/shop/checkout/getstripapikey", isAuthenticateUser, sendStripAPIKey)
 router.post("/shop/checkout/order/new", isAuthenticateUser, newOrder);
 
 router.get("/user/profile/order", isAuthenticateUser, fetchAllUserOrders);
+
+
+// new product review
+router.put("/shop/product/new-review/:productId", isAuthenticateUser, newProductReview);
+
 
 export default router;

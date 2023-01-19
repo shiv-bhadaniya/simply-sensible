@@ -27,6 +27,7 @@ export const signin = async (req, res) => {
             email : user.email,
             isAdmin : user.isAdmin,
             name : user.name,
+            userId: user._id,
         }
 
         // res.status(200).json({
@@ -82,6 +83,7 @@ export const signup = async (req, res) => {
             email : email,
             isAdmin : newUser.isAdmin,
             name : name,
+            userId: newUser._id,
         }
 
 

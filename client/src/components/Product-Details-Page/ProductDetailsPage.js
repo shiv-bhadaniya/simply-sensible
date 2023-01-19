@@ -1,23 +1,33 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { AiOutlineLoading3Quarters } from "react-icons/ai"
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { allProductSelector } from '../../slices/user/allProducts';
 import { AddToCart, cartSelector, quantityIncrement } from '../../slices/user/cart';
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
-import ReviewPopup from './ReviewPopup';
+import ReviewForm from './ReviewForm';
+import { newProductReview } from '../../slices/user/newProductReview';
+import Reviews from './Reviews';
 
 
 const ProductDetailsPage = () => {
 
     let { productId } = useParams();
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    var userData = useSelector((state) => state.authUser )
     var { data, loading, hasError } = useSelector(allProductSelector);
+    var {newProductReviewData} = useSelector((state) => state.newProductReview);
+
+    const [isOpen, setIsOpen] = useState(false);
     var [quantity, setQuantity] = useState(1);
     var [isAdded, setAdded] = useState(false);
-    var dispatch = useDispatch();
+    const[rating, setRating] = useState(0)
+    const[reviewText, setReviewText] = useState("");
 
-    const curretnProduct = data.find(product => product._id == productId);
+    var curretnProduct = data.find(product => product._id == productId);
 
 
     var currentProductDetails = {
@@ -51,7 +61,6 @@ const ProductDetailsPage = () => {
             items = JSON.parse(localStorage.getItem('products'));
 
             let checkValue = curretProductInCartCheck(items);
-            console.log("Check value is : ", checkValue);
             if (checkValue) {
                 setAdded(true);
             }
@@ -101,18 +110,37 @@ const ProductDetailsPage = () => {
     }
 
     const handleReviewSubmit = () => {
-        console.log("Review Submit clicked.");
-        // <Popup trigger={open => (<button className="button">Trigger - {open ? 'Opened' : 'Closed'}</button>)} position="right center" closeOnDocumentClick>  <span> Popup content </span></Popup>;
-        <Popup trigger={<span class="text-gray-600 ml-3 hover:cursor-pointer ">Add Review</span>}
-            position="center center"
-            open="true">
-            <textarea>
+        setIsOpen(false)
+        // console.log("Review Submit button clicked.", rating, reviewText);
+        setRating(0);
+        setReviewText("")
 
-            </textarea>
-            <button>Submit Review</button>
-
-        </Popup>
+        let reviewData = {}
+        reviewData.rating = rating
+        reviewData.review = reviewText
+        reviewData.user = userData?.data?.result
+        
+        // dispatch review submit reviewData
+        console.log("Review All Data : ", reviewData);
+        dispatch(newProductReview(productId, reviewData))
+        curretnProduct = newProductReviewData;
     }
+
+    const handleRatingButton = (e) => {
+        setRating(e.target.name)
+    }
+
+
+    const handleOpenReviewBox = () => {
+
+        if(userData?.data?.length === 0) {
+            navigate("/auth");
+            return;        
+        }
+
+        setIsOpen(true)
+    }
+    console.log("Curent shop : ", curretnProduct);
 
 
 
@@ -127,24 +155,23 @@ const ProductDetailsPage = () => {
 
         return (
             <>
-                <section class="text-gray-700 body-font overflow-hidden bg-white">
+                <section class="text-gray-700 body-font overflow-hidden bg-white z-[2]">
                     <div class="container px-5 py-24 mx-auto">
                         <div class="lg:w-4/5 mx-auto flex flex-wrap">
                             <img alt="product-photo" class="lg:w-1/2 w-full object-cover object-center rounded border border-gray-200" src={curretnProduct.photo} />
                             <div class="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
                                 <h2 class="text-sm title-font text-gray-500 tracking-widest">Simply Sensible</h2>
                                 <h1 class="text-gray-900 text-3xl title-font font-medium mb-1"> {curretnProduct.name} | {curretnProduct.weight < 1000 ? ((curretnProduct.weight)) : ((curretnProduct.weight) / 1000)} {(curretnProduct.weight < 1000 ? "Grams" : "Kg")} </h1>
-                                {/* <div class="flex mb-4">
-                                    https://play.tailwindcss.com/93gXrdMrvy
-                                    <span class="flex items-center">
-                                        popup
-                                        <Popup trigger={<span class="text-gray-600 ml-3 hover:cursor-pointer ">Add Review</span>}
-                                            position="center center"
-                                            >
-                                            <p>regy</p>
-                                        </Popup>
+                                <div class="flex mb-4 z-[1] relative">
+                                    {/* https://play.tailwindcss.com/93gXrdMrvy */}
+                                    <span class="flex items-center ">
+                                        <div>
+                                            <button onClick={handleOpenReviewBox} className="font-serif font-medium underline" > Submit Review</button>
+                                            <ReviewForm isOpen={isOpen} onClose={() => setIsOpen(false)} handleRatingButton={handleRatingButton} handleReviewSubmit={handleReviewSubmit} setReviewText={setReviewText} reviewText={reviewText} rating={rating} />
+
+                                        </div>
                                     </span>
-                                </div> */}
+                                </div>
                                 <p class="leading-relaxed">{curretnProduct.discription}</p>
                                 <div class="flex mt-6 items-center pb-5 border-b-2 border-gray-200 mb-5">
                                     <div class="flex ml-6 items-center">
@@ -189,7 +216,7 @@ const ProductDetailsPage = () => {
                         </div>
                     </div>
                 </section>
-                <ReviewPopup />
+                <Reviews curretnProduct={curretnProduct}/>
             </>
         )
     }

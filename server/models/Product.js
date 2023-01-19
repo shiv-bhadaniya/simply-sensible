@@ -13,7 +13,8 @@ const productShema = new mongoose.Schema({
     productAddedAt: {
         type: Date,
         default: new Date(),
-    }
+    },
+    reviews: [Object],
 })
 
 const Product = mongoose.model("Product", productShema);

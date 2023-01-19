@@ -40,16 +40,16 @@ export const cartPriceCalulate = async (req, res) => {
         });
 
 
-        if(dbProduct.length !== cartItems.length) {
+        if (dbProduct.length !== cartItems.length) {
             throw new Error("Product not find.");
         }
 
         var subTotal = 0;
 
 
-        for(let i = 0; i < cartItems.length; i++) {
-            for(let j = 0; j < dbProduct.length; j++) {
-                if((cartItems[i]._id) == (dbProduct[j]._id)) {
+        for (let i = 0; i < cartItems.length; i++) {
+            for (let j = 0; j < dbProduct.length; j++) {
+                if ((cartItems[i]._id) == (dbProduct[j]._id)) {
                     let onItemPrice = (dbProduct[j].price * cartItems[i].quantity);
                     subTotal = subTotal + onItemPrice;
                 }
@@ -79,7 +79,7 @@ export const newOrder = async (req, res) => {
     } = req.body;
 
     try {
-        
+
         const order = await Order.create({
             shipingInfo,
             orderItems,
@@ -90,26 +90,57 @@ export const newOrder = async (req, res) => {
         })
 
         res.status(200).json({ order })
-        
+
     } catch (error) {
-        res.json({"message" :"Something went wrong."});
+        res.json({ "message": "Something went wrong." });
     }
 }
 
 export const fetchAllUserOrders = async (req, res) => {
 
     try {
-        
+
         let userId = req.user._id;
 
-        const userOrders = await Order.find({user: userId});
-        if(userOrders.length !== 0) {
+        const userOrders = await Order.find({ user: userId });
+        if (userOrders.length !== 0) {
             res.status(200).json(userOrders);
         } else {
             res.status(200).json("Not order yet.")
         }
     } catch (error) {
         res.status(500).json("Something went wrog.")
+    }
+}
+
+// new product review
+export const newProductReview = async (req, res) => {
+
+    const productId = req.params.productId;
+    const reviewData = req.body;
+
+
+    try {
+
+        const updatedProductWithReviews = await Product.findByIdAndUpdate(productId, {
+            $push: {
+                reviews: {
+                    "rating": reviewData?.rating,
+                    "review": reviewData?.review,
+                    user: {
+                        "userId": reviewData?.user?.userId,
+                        "name": reviewData?.user?.name,
+                        "email": reviewData?.user?.email,
+                    },
+                }
+            }
+        }, { new: true });
+
+        const product = await Product.findById(productId);
+        res.status(200).json(product);
+
+    } catch (error) {
+        res.status(500).json("Something went wrong..");
     }
 }
 
