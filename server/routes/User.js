@@ -1,6 +1,6 @@
 import express from "express";
 import { paymentProcess, sendStripAPIKey } from "../controller/Payment.js";
-import { cartPriceCalulate, fetchAllUserOrders, getAllProducts, newOrder, newProductReview } from "../controller/User.js";
+import { cartPriceCalulate, fetchAllUserOrders, getAllProducts, getProductDetails, newOrder, newProductReview } from "../controller/User.js";
 import {isAuthenticateUser} from "../middlerware/Auth.js";
 
 
@@ -23,5 +23,8 @@ router.get("/user/profile/order", isAuthenticateUser, fetchAllUserOrders);
 // new product review
 router.put("/shop/product/new-review/:productId", isAuthenticateUser, newProductReview);
 
+
+// get product detilas
+router.get("/shop/product/product-details/:productId", getProductDetails);
 
 export default router;

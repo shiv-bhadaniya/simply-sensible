@@ -25,3 +25,6 @@ export const getAllUserOrder = () => baseAPI.get("/user/profile/order");
 
 // product new review
 export const newProductReview = (productId, reviewData) => baseAPI.put(`/shop/product/new-review/${productId}`, reviewData);
+
+// product detials
+export const getProductDetails = (productId) => baseAPI.get(`/shop/product/product-details/${productId}`);

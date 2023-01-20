@@ -11,7 +11,7 @@ import fetchAllOrders from "./admin/order";
 import delteProduct from "./admin/productDelete";
 import orderStatusUpdateReducer from "./admin/orderStatusUpdate";
 import newProductReviewReducer from "./user/newProductReview";
-
+import productDetailsReducer from "./user/productDetails";
 
 
 const rootReducer = combineReducers({
@@ -27,6 +27,7 @@ const rootReducer = combineReducers({
     deleteProduct: delteProduct,
     orderStatusUpdated: orderStatusUpdateReducer,
     newProductReview: newProductReviewReducer,
+    productDetails: productDetailsReducer,
 })
 
 export default rootReducer;

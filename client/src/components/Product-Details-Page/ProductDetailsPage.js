@@ -9,6 +9,7 @@ import 'reactjs-popup/dist/index.css';
 import ReviewForm from './ReviewForm';
 import { newProductReview } from '../../slices/user/newProductReview';
 import Reviews from './Reviews';
+import { getProductDetails } from '../../slices/user/productDetails';
 
 
 const ProductDetailsPage = () => {
@@ -17,33 +18,35 @@ const ProductDetailsPage = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    var userData = useSelector((state) => state.authUser )
-    var { data, loading, hasError } = useSelector(allProductSelector);
-    var {newProductReviewData} = useSelector((state) => state.newProductReview);
+    var userData = useSelector((state) => state.authUser)
+
+    const { productDetails, productDetailsLoading, productDetailsError } = useSelector((state) => state.productDetails);
+    var { newProductReviewData } = useSelector((state) => state.newProductReview);
 
     const [isOpen, setIsOpen] = useState(false);
     var [quantity, setQuantity] = useState(1);
     var [isAdded, setAdded] = useState(false);
-    const[rating, setRating] = useState(0)
-    const[reviewText, setReviewText] = useState("");
+    const [rating, setRating] = useState(5)
+    const [reviewText, setReviewText] = useState("");
 
-    var curretnProduct = data.find(product => product._id == productId);
 
 
     var currentProductDetails = {
         "quantity": quantity,
-        "weight": curretnProduct.weight,
-        "categorie": curretnProduct.categorie,
-        "discription": curretnProduct.discription,
-        "name": curretnProduct.name,
-        "price": curretnProduct.price,
-        "sku": curretnProduct.sku,
-        "photo": curretnProduct.photo,
-        "productAddedAt": curretnProduct.productAddedAt,
-        "_id": curretnProduct._id,
+        "weight": productDetails.weight,
+        "categorie": productDetails.categorie,
+        "discription": productDetails.discription,
+        "name": productDetails.name,
+        "price": productDetails.price,
+        "sku": productDetails.sku,
+        "photo": productDetails.photo,
+        "productAddedAt": productDetails.productAddedAt,
+        "_id": productDetails._id,
     }
 
-
+    useEffect(() => {
+        dispatch(getProductDetails(productId));
+    }, [])
 
     useEffect(() => {
         var curretProductInCartCheck = (items) => {
@@ -119,11 +122,10 @@ const ProductDetailsPage = () => {
         reviewData.rating = rating
         reviewData.review = reviewText
         reviewData.user = userData?.data?.result
-        
+
         // dispatch review submit reviewData
         console.log("Review All Data : ", reviewData);
         dispatch(newProductReview(productId, reviewData))
-        curretnProduct = newProductReviewData;
     }
 
     const handleRatingButton = (e) => {
@@ -133,14 +135,14 @@ const ProductDetailsPage = () => {
 
     const handleOpenReviewBox = () => {
 
-        if(userData?.data?.length === 0) {
+        if (userData?.data?.length === 0) {
             navigate("/auth");
-            return;        
+            return;
         }
 
         setIsOpen(true)
     }
-    console.log("Curent shop : ", curretnProduct);
+    console.log("Curent shop : ", productDetails);
 
 
 
@@ -148,9 +150,9 @@ const ProductDetailsPage = () => {
     const renderProducts = () => {
 
         // <img src={loadingAnimation} alt="Loading..." />
-        if (loading) return <div > <AiOutlineLoading3Quarters /> </div>
-        if (hasError) return <h1>oops!! some thing went wrong. please try afteer some times.</h1>
-        if (!loading && data.length == 0) return <h1>No product avabile.</h1>
+        if (productDetailsLoading) return <div > <AiOutlineLoading3Quarters /> </div>
+        if (productDetailsError) return <h1>oops!! some thing went wrong. please try afteer some times.</h1>
+        if (!productDetailsLoading && productDetails.length == 0) return <h1>No product avabile.</h1>
 
 
         return (
@@ -158,10 +160,10 @@ const ProductDetailsPage = () => {
                 <section class="text-gray-700 body-font overflow-hidden bg-white z-[2]">
                     <div class="container px-5 py-24 mx-auto">
                         <div class="lg:w-4/5 mx-auto flex flex-wrap">
-                            <img alt="product-photo" class="lg:w-1/2 w-full object-cover object-center rounded border border-gray-200" src={curretnProduct.photo} />
+                            <img alt="product-photo" class="lg:w-1/2 w-full object-cover object-center rounded border border-gray-200" src={productDetails.photo} />
                             <div class="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
                                 <h2 class="text-sm title-font text-gray-500 tracking-widest">Simply Sensible</h2>
-                                <h1 class="text-gray-900 text-3xl title-font font-medium mb-1"> {curretnProduct.name} | {curretnProduct.weight < 1000 ? ((curretnProduct.weight)) : ((curretnProduct.weight) / 1000)} {(curretnProduct.weight < 1000 ? "Grams" : "Kg")} </h1>
+                                <h1 class="text-gray-900 text-3xl title-font font-medium mb-1"> {productDetails.name} | {productDetails.weight} </h1>
                                 <div class="flex mb-4 z-[1] relative">
                                     {/* https://play.tailwindcss.com/93gXrdMrvy */}
                                     <span class="flex items-center ">
@@ -172,7 +174,7 @@ const ProductDetailsPage = () => {
                                         </div>
                                     </span>
                                 </div>
-                                <p class="leading-relaxed">{curretnProduct.discription}</p>
+                                <p class="leading-relaxed">{productDetails.discription}</p>
                                 <div class="flex mt-6 items-center pb-5 border-b-2 border-gray-200 mb-5">
                                     <div class="flex ml-6 items-center">
                                         <span class="mr-3"> Quantity</span>
@@ -208,7 +210,7 @@ const ProductDetailsPage = () => {
                                     </div>
                                 </div>
                                 <div class="flex">
-                                    <span class="title-font font-medium text-2xl text-gray-900">&#8377; {curretnProduct.price} </span>
+                                    <span class="title-font font-medium text-2xl text-gray-900">&#8377; {productDetails.price} </span>
                                     {isAdded && <><button onClick={handleUpdateCart} class="flex ml-auto text-white bg-[#CE9461] border-0 py-2 px-6 focus:outline-none hover:bg-[#DEA057] rounded"> Update Cart Details </button></>}
                                     <button onClick={isAdded ? handleRemoveFromCart : handleAddToCart} class={`flex ml-auto text-white border-0 py-2 px-6 focus:outline-none rounded ${isAdded ? " bg-red-600 hover:bg-red-700" : "bg-[#CE9461] hover:bg-[#DEA057]"} `}> {isAdded ? "Remove form cart" : "Add to"} </button>
                                 </div>
@@ -216,7 +218,7 @@ const ProductDetailsPage = () => {
                         </div>
                     </div>
                 </section>
-                <Reviews curretnProduct={curretnProduct}/>
+                <Reviews />
             </>
         )
     }

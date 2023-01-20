@@ -3,6 +3,7 @@ import { fetchAllProducts, allProductSelector } from "../../slices/user/allProdu
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { PacmanLoader } from "react-spinners";
+import { getProductDetails } from "../../slices/user/productDetails";
 
 const Products = () => {
 
@@ -14,6 +15,10 @@ const Products = () => {
   useEffect(() => {
     dispatch(fetchAllProducts());
   }, [dispatch]);
+
+  const handleProductDetails = (productId) => {
+    dispatch(getProductDetails(productId));
+  }
 
 
 
@@ -40,7 +45,7 @@ const Products = () => {
                       className="h-full w-full object-cover object-center group-hover:opacity-75"
                     />
                   </div>
-                  <Link key={product._id} to={`/shop/product-details/${product._id}`}>
+                  <Link key={product._id} to={`/shop/product-details/${product._id}`} >
                     <h3 className="mt-4 text-sm text-gray-700">{product.name} | {product.weight}</h3>
                     <p className="mt-1 text-lg font-medium text-gray-900">{product.price} Rs.</p>
                   </Link>

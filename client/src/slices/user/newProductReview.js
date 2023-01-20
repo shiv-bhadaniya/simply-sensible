@@ -1,5 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit"
 import * as API from "../../API/userAPI";
+import { getProductDetails } from "./productDetails";
+import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-toastify';
+
+
 
 const initialState = {
     newProductReviewLoading: false,
@@ -19,10 +24,12 @@ export const newProductReviewSlice = createSlice({
             state.newProductReviewLoading = false
             state.newProductReviewError = false
             state.newProductReviewData = payload
+            toast.success("Product review submit successfully", {position:"bottom-center"});
         },
         newProductReviewFailur: (state, { payload }) => {
             state.newProductReviewLoading = false
             state.newProductReviewError = true
+            toast.error(payload, {position: "bottom-center"});
         }
     }
 })
@@ -36,6 +43,7 @@ export const newProductReview = (productId, reviewData) => {
 
             if (response.data !== null) {
                 dispatch(newProductReviewSuccess(response.data));
+                dispatch(getProductDetails(response.data._id));
             } else {
                 dispatch(newProductReviewFailur(response.data));
             }

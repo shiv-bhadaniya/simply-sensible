@@ -1,7 +1,9 @@
 import express from "express";
-import mongoose from "mongoose";
+import moment from 'moment';
 import Product from "../models/Product.js";
 import Order from "../models/Order.js";
+
+
 const router = express.Router();
 
 
@@ -85,7 +87,7 @@ export const newOrder = async (req, res) => {
             orderItems,
             paymetInfo,
             totalAmount,
-            paidAt: Date.now(),
+            paidAt: moment().format("MMM Do YYYY"),
             user: req.user._id,
         })
 
@@ -132,6 +134,7 @@ export const newProductReview = async (req, res) => {
                         "name": reviewData?.user?.name,
                         "email": reviewData?.user?.email,
                     },
+                    "date": moment().format("MMM Do YYYY"),
                 }
             }
         }, { new: true });
@@ -144,5 +147,24 @@ export const newProductReview = async (req, res) => {
     }
 }
 
+
+// get product details
+export const getProductDetails = async(req, res) => {
+
+    try {
+        const productId = req.params.productId;
+        console.log(productId);
+        const product = await Product.findById(productId);
+        console.log(product);
+        if(product !== null) {
+            res.status(200).json(product);
+        } else {
+            res.status(200).json("we face problem while fetching product details.");
+        }
+
+    } catch (error) {
+        res.status(500).json("Something went wrong.");
+    }
+}
 
 export default router;

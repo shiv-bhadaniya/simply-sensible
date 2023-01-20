@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import moment from 'moment';
 
 
 const productShema = new mongoose.Schema({
@@ -12,7 +13,7 @@ const productShema = new mongoose.Schema({
     photo: String,
     productAddedAt: {
         type: Date,
-        default: new Date(),
+        default: moment().format("MMM Do YYYY"),
     },
     reviews: [Object],
 })
