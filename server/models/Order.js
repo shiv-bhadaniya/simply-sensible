@@ -23,7 +23,7 @@ const orderSchema = new mongoose.Schema({
         weight: String
     }],
     totalAmount: Number,
-    user: {
+    customerId: {
         type: mongoose.Schema.ObjectId,
     },
     paymetInfo: {
@@ -32,7 +32,8 @@ const orderSchema = new mongoose.Schema({
         amount: Number,
         currency: String,
     },
-    paidAt: Date,
+    customerEmail: String,
+    paidAt: String,
     orderStatus: {
         type: String,
         default: "Processing",

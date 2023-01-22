@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import moment from 'moment';
 
 const userSchema = new mongoose.Schema({
     name: String,
@@ -12,8 +13,8 @@ const userSchema = new mongoose.Schema({
         default : false
     },
     createdAt: {
-        type: Date,
-        default: new Date(),
+        type: String,
+        default: moment().format("MMM Do YYYY"),
     }
     
 })

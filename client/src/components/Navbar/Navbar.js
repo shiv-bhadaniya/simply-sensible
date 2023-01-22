@@ -50,9 +50,6 @@ const Navbar = () => {
                                 </svg> </Link>
                                 </div>
                             </li>
-                            <li>
-                                <Link to="/admin/dashboard">Dashboard</Link>
-                            </li>
                         </ul>
                     </div>
                 </div>

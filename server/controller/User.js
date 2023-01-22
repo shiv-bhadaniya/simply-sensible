@@ -74,8 +74,6 @@ export const cartPriceCalulate = async (req, res) => {
 
 export const newOrder = async (req, res) => {
 
-    console.log("new order req : ", req.body);
-
     const {
         shipingInfo,
         orderItems,
@@ -83,21 +81,22 @@ export const newOrder = async (req, res) => {
         paymetInfo,
     } = req.body;
 
+    const newOrder = new Order({
+        shipingInfo,
+        orderItems,
+        paymetInfo,
+        totalAmount,
+        paidAt: moment().format("MMM Do YYYY"),
+        customerId: req.user._id,
+        customerEmail: req.user.email,
+    })
+
     try {
-
-        const order = await Order.create({
-            shipingInfo,
-            orderItems,
-            paymetInfo,
-            totalAmount,
-            paidAt: moment().format("MMM Do YYYY"),
-            customerId: req.user._id,
-            customerEmail: req.user.email,
-        })
-
+        
+        newOrder.save();
         sendOrderConfirmationMail(order);
 
-        res.status(200).json({ order })
+        res.status(200).json({ newOrder })
 
     } catch (error) {
         res.json({ "message": "Something went wrong." });

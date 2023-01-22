@@ -12,7 +12,7 @@ const productShema = new mongoose.Schema({
     categorie: String,
     photo: String,
     productAddedAt: {
-        type: Date,
+        type: String,
         default: moment().format("MMM Do YYYY"),
     },
     reviews: [Object],

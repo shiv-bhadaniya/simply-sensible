@@ -42,7 +42,7 @@ export const createOrder = (newOrderData, navigate) => {
            console.log("order Response :", orderResponse);
             if(orderResponse.status == 200) {
                 dispatch(orderSuccess(orderResponse));
-                navigate("user/profile");
+                navigate("/")
             } else {
                 dispatch(orderFailur());
             }

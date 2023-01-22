@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import * as API from "../../API/adminAPI.js";
 import 'react-toastify/dist/ReactToastify.css';
 import { toast } from 'react-toastify';
+import { fetchAllProducts } from '../user/allProducts.js';
 
 const initialState = {
     loading : false,
@@ -56,9 +57,9 @@ export const adminAddNewProduct = (data, navigate) => {
 
         try {
             const response = await API.addNewProduct(data);
-            console.log("res from server after add new product : ", response);
             dispatch(addNewProductSuccess(response.data));
-            navigate("/shop")
+            dispatch(fetchAllProducts())
+            navigate("/admin/dashboard")
         } catch (error) {
             dispatch(addNewProductFailure());
         }

@@ -42,9 +42,8 @@ const Profile = lazy(() => import('./components/User/Profile'));
 
 const App = () => {
 
-  const [stripAPIKey, setStripAPIKey] = useState("");
   const dispatch = useDispatch();
-  const { data } = useSelector(authUserSelector);
+  const { data, stripAPIKey } = useSelector(authUserSelector);
 
   var isAuthenticated = false;
   var isAdmin = false;
@@ -53,15 +52,6 @@ const App = () => {
     isAdmin = data?.result?.isAdmin;
   }
 
-  const getStripAPIKey = async () => {
-    const { data } = await API.getStripAPIKey();
-    console.log("data of stripe key : ", data);
-    setStripAPIKey(data?.stripeApiKey);
-  }
-
-  useEffect(() => {
-    getStripAPIKey();
-  }, [])
 
   return (
     <>

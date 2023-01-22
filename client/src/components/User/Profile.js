@@ -18,7 +18,6 @@ const Profile = () => {
             <div>
               <h1>My Profile</h1>
               <span className="rounded-full border-black font-large text-gray-600 dark:text-gray-300  py-7">  {data?.result?.name[0]} </span>
-              <Link to="/me/update">Edit Profile</Link>
             </div>
             <div>
               <div>

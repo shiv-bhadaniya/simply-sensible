@@ -18,6 +18,11 @@ const Payment = () => {
 
 
   var { cartPriceWithFinalAmountFromServer } = useSelector((state) => state.cartPriceFromServer);
+  console.log(cartPriceWithFinalAmountFromServer);
+  if(typeof(cartPriceWithFinalAmountFromServer) !== "number") {
+    navigate("/shop");
+  } 
+  
   var { cartItems, shipingInfo} = useSelector((state) => state.cart);
   var { data } = useSelector((state) => state.authUser);
   var user = data?.result;
