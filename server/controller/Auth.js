@@ -30,9 +30,7 @@ export const signin = async (req, res) => {
             userId: user._id,
         }
 
-        // res.status(200).json({
-        //     result : sendingUserDetails, token
-        // })
+
 
         
         const options = {

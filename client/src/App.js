@@ -18,6 +18,8 @@ import { authUserSelector } from './slices/auth/auth';
 import Dashboard from './components/Admid/Dashboard';
 import ProductList from './components/Admid/ProductList';
 import OrderList from './components/Admid/OrderList';
+import UsersList from './components/Admid/UsersList';
+import NotFound from './components/NotFound/NotFound';
 
 
 
@@ -156,8 +158,22 @@ const App = () => {
               }
             />
 
+            <Route
+              path="admin/users"
+              element={
+                <ProtectedRoutes isAuthenticated={isAuthenticated} isAdmin={isAdmin} adminRoute={true}>
+                  <UsersList />
+                </ProtectedRoutes>
+              }
+            />
+
+
+            {/* not found page */}
+            <Route path='*' element={<NotFound />} />
+
+
           </Routes>
-          {/* <Footer /> */}
+         
         </BrowserRouter>
       </Suspense>
       <ToastContainer />

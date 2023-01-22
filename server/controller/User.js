@@ -91,7 +91,8 @@ export const newOrder = async (req, res) => {
             paymetInfo,
             totalAmount,
             paidAt: moment().format("MMM Do YYYY"),
-            user: req.user._id,
+            customerId: req.user._id,
+            customerEmail: req.user.email,
         })
 
         sendOrderConfirmationMail(order);

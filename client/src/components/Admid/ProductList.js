@@ -18,13 +18,6 @@ const ProductList = () => {
     var { data, loading, hasError } = useSelector((state) => state.allProducts);
     var {productDeleteLoading } = useSelector((state) => state.deleteProduct);
 
-    const handleProductEdit = () => {
-        if (window.confirm("Are you sure to edit product?")) {
-            // edit product
-        } else {
-            return;
-        }
-    }
 
     const handleProductDelete = (product) => {
         if (window.confirm("Are you sure to delete product?")) {
@@ -77,8 +70,7 @@ const ProductList = () => {
                                                 <td className="p-3">
                                                     <p className='font-medium pl-7'> {item.weight} </p>
                                                 </td>
-                                                <td className="inline-flex pt-3">
-                                                    <span className='block pr-7 text-[20px]  hover:cursor-pointer' onClick={handleProductEdit}> <MdModeEdit /> </span>
+                                                <td className="inline-flex pt-3 pl-5">
                                                     <span className='block text-[19px] hover:cursor-pointer' onClick={() => handleProductDelete(item)}> <MdDelete /> </span>
 
                                                 </td>
