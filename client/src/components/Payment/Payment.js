@@ -133,7 +133,7 @@ const Payment = () => {
 
   return (
     <>
-      <div class="antialiased bg-gray-100 text-gray-600 min-h-screen p-4 mt-6 pt-12">
+      <div class="antialiased bg-gray-500 text-gray-600 min-h-screen p-4 mt-6 pt-12">
         <div class="h-full">
 
           <div class="relative px-4 sm:px-6 lg:px-8 pb-8 max-w-lg mx-auto" x-data="{ card: true }">

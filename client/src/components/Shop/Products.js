@@ -1,25 +1,19 @@
-import { useEffect } from "react"
+import { useEffect, createContext, useContext } from "react"
 import { fetchAllProducts, allProductSelector } from "../../slices/user/allProducts"
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { PacmanLoader } from "react-spinners";
-import { getProductDetails } from "../../slices/user/productDetails";
 
 const Products = () => {
 
   const dispatch = useDispatch()
   const navigate = useNavigate();
 
-  var { data, loading, hasError } = useSelector(allProductSelector);
-
+  var { data, loading, hasError, filterData } = useSelector(allProductSelector);
+  data = filterData
   useEffect(() => {
     dispatch(fetchAllProducts());
   }, [dispatch]);
-
-  const handleProductDetails = (productId) => {
-    dispatch(getProductDetails(productId));
-  }
-
 
 
   const renderProducts = () => {

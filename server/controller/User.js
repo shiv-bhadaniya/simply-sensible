@@ -2,6 +2,9 @@ import express from "express";
 import moment from 'moment';
 import Product from "../models/Product.js";
 import Order from "../models/Order.js";
+import nodemailer from "nodemailer";
+import {  sendOrderConfirmationMail } from "../util/sendMail.js";
+
 
 
 const router = express.Router();
@@ -91,6 +94,8 @@ export const newOrder = async (req, res) => {
             user: req.user._id,
         })
 
+        sendOrderConfirmationMail(order);
+
         res.status(200).json({ order })
 
     } catch (error) {
@@ -149,14 +154,12 @@ export const newProductReview = async (req, res) => {
 
 
 // get product details
-export const getProductDetails = async(req, res) => {
+export const getProductDetails = async (req, res) => {
 
     try {
         const productId = req.params.productId;
-        console.log(productId);
         const product = await Product.findById(productId);
-        console.log(product);
-        if(product !== null) {
+        if (product !== null) {
             res.status(200).json(product);
         } else {
             res.status(200).json("we face problem while fetching product details.");
