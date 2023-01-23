@@ -28,10 +28,7 @@ const Profile = () => {
                 <h4>Email</h4>
                 <p>{data?.result?.email}</p>
               </div>
-              <div>
-                <h4>Joined On</h4>
-                <p>{String(data?.result?.createdAt).substr(0, 10)}</p>
-              </div>
+           
 
               <div>
                 <Link to="/user/profile/order">My Orders</Link>
