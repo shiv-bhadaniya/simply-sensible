@@ -94,7 +94,7 @@ export const newOrder = async (req, res) => {
     try {
         
         newOrder.save();
-        sendOrderConfirmationMail(order);
+        sendOrderConfirmationMail(newOrder);
 
         res.status(200).json({ newOrder })
 
